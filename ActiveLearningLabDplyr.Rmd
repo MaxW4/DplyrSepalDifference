@@ -1,0 +1,70 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+# Step 1: Open RStudio and load the necessary dependencies (dplyr package)
+```{r}
+# Load the dplyr package
+library(dplyr)
+
+# Load the iris dataset
+data(iris)
+
+colnames(iris)
+
+# Selecting Sepal.Length, Species, and Petal.Width Columns
+iris_selected <- iris %>%
+  select(Sepal.Length, Species, Petal.Width)
+
+# Subset the data to include only rows where Sepal.Length > 5
+iris_filtered <- iris_selected %>%
+  filter(Sepal.Length > 5)
+
+# Sort based on Petal.Length in ascending order
+iris_sorted <- iris %>%
+  arrange(Petal.Length)
+
+# Create a new variable called sepal_ratio
+iris_with_ratio <- iris %>%
+  mutate(sepal_ratio = Sepal.Width / Sepal.Length)
+
+# Display the updated dataset with sepal_ratio
+head(iris_with_ratio)
+
+# Calculating average petal length 
+average_petal_length <- mean(iris$Petal.Length)
+
+# Group the data by species variable and calculate average petal length
+average_petal_length_by_species <- iris %>%
+  group_by(Species) %>%
+  summarize(average_petal_length = mean(Petal.Length))
+
+# Subset to inc. only rows where Petal.Length>3, create a new variable called sepal_difference, group the data by species variable, calculate average sepal difference among species
+result <- iris %>%
+  filter(Petal.Length > 3) %>%
+  mutate(sepal_difference = Sepal.Length - Sepal.Width) %>%
+  group_by(Species) %>%
+  summarize(average_sepal_difference = mean(sepal_difference))
+
+# Display the final result
+print(result)
+
+
+
+```
